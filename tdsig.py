@@ -1,298 +1,620 @@
-import os,sys
-import requests,json
+
+from weakref import proxy
+import requests
 from time import sleep
-from datetime import datetime, timedelta
-import base64,requests,os
-#màu
-xnhac = "\033[1;36m"
-do = "\033[1;31m"
-luc = "\033[1;32m"
-vang = "\033[1;33m"
-xduong = "\033[1;34m"
-hong = "\033[1;35m"
-trang = "\033[1;37m"
-whiteb="\033[1;37m"
-red="\033[0;31m"
-redb="\033[1;31m"
-end='\033[0m'
-#đánh dấu bản quyền
-ndp_tool="\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=>  "
-thanh = "\033[1;37m= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ="
-#Config
-def banner():
- banner = f"""
-"""
- for X in banner:
-  sys.stdout.write(X)
-  sys.stdout.flush() 
-  sleep(0.00125)
-os.system("cls" if os.name == "nt" else "clear")
-banner()
-token_tds = input(f'{ndp_tool}{luc}Vui Lòng Nhập Token TĐS{trang}:{vang} ')
-check_log = requests.get('https://traodoisub.com/api/?fields=profile&access_token='+token_tds).json()
-if 'success' in check_log:
-    print(f'{xnhac}Đăng Nhập Thành Công!')
-    user = check_log['data']['user']
-    xucon = check_log['data']['xu']
-    xudie = check_log['data']['xudie']
-else:
-    exit(f'{do}Đăng Nhập Thất Bại.')
-print(thanh)
-cookie = input(f'{ndp_tool}{luc}Vui Lòng Nhập Cookie IG{trang}: {vang} ')
-#CHỌN NV + NHẬP DELAY
-os.system("cls" if os.name == "nt" else "clear")
-banner()
-print(f'{ndp_tool}{luc}Tên Tài Khoản{trang}: {vang}{user}')
-print(f'{ndp_tool}{luc}Xu Hiện Tại{trang}: {vang}{xucon}')
-print(f'{ndp_tool}{luc}Xu Bị Trừ{trang}: {vang}{xudie}')
-print(thanh)
-print(f'{ndp_tool}{luc}Nhập Số {do}[{vang}1{do}] {luc}Để Chạy Nhiệm Vụ Tym')
-print(f'{ndp_tool}{luc}Nhập Số {do}[{vang}2{do}] {luc}Để Chạy Nhiệm Vụ Follow')
-print(f'{ndp_tool}{luc}Nhập Số {do}[{vang}3{do}] {luc}Để Chạy Nhiệm Vụ Tym Comment')
-print(f'{ndp_tool}{luc}Nhập Số {do}[{vang}4{do}] {luc}Để Chạy Nhiệm Vụ Comment {do}[{vang}BẢO TRÌ{do}]')
-print(thanh)
-chonjob = input(f'{ndp_tool}{luc}Nhập Nhiệm Vụ Bạn Muốn Chạy{trang}: {vang}')
-delayjob = int(input(f'{ndp_tool}{luc}Nhập Delay Làm Nhiệm Vụ{trang}: {vang}'))
-os.system("cls" if os.name == "nt" else "clear")
-banner()
-#hàm delay + load tìm job
-def delay_ndp(o):
-	while (o>1):
-		o=o-1
-		print(luc+' </> '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.2)
-		print(do+' </> '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.1)
-		print(vang+' </> '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.2)
-		print(hong+' </> '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.1)
-		print(xnhac+' </> '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.2)
-def loadjob(o):
-	while (o>1):
-		o=o-1
-		print(luc+' Đang Tìm Nhiệm Vụ  '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.2)
-		print(do+' Đang Tìm Nhiệm Vụ  '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.1)
-		print(vang+' Đang Tìm Nhiệm Vụ  '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.2)
-		print(hong+' Đang Tìm Nhiệm Vụ  '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.1)
-		print(xnhac+' Đang Tìm Nhiệm Vụ  '+do+'| '+vang+''+str(o)+do+' |','      ', end='\r')
-		sleep(0.2)
+from pystyle import *
+import os
+#from os import link, system
+from datetime import date, datetime
+import random
+Defaut="\033[0m"       # Text Reset
+Black="\033[0;30m"        # Black
+Red="\033[0;31m"          # Red
+Green="\033[0;32m"        # Green
+Yellow="\033[0;33m"       # Yellow
+Blue="\033[0;34m"         # Blue
+Purple="\033[0;35m"       # Purple
+Cyan="\033[0;36m"         # Cyan
+White="\033[0;37m"
+text = '''
+TOOL TRAO ĐỔI SUB INSINS
+           HÃY BẤM XUỐNG DÒNG
+'''''
+Anime.Fade(Center.Center(text), Colors.red_to_blue, Colorate.Vertical, enter = True)	
+Write.Print('========================================================= \n',Colors.cyan_to_blue,interval=0.0001)
+# key1=input(f'{Cyan}Vui lòng nhập key: {Red}')
+tmp1 = open('ua.txt','a+')
+tmp1.close()
+file1=open('ua.txt')
+read_ua=file1.readlines()
+list_acc = []
+from datetime import date
+today = date.today()
+import requests, random
+rds=random.randint(1,999)
+ngay=today.day
+def clear_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
+silent_mode = True  # True = tắt thông báo phụ   
 
-thoigian = datetime.now().strftime("%H:%M:%S")
-demjob = 0
-#get token...
-headers_get = {
-    'authority': 'www.instagram.com',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-    'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-    'cache-control': 'max-age=0',
-    'referer': 'https://www.instagram.com/accounts/onetap/?next=%2F',
-    'sec-ch-prefers-color-scheme': 'light',
-    'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-user': '?1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36',
-    'viewport-width': '1920',
-    'cookie': cookie,
-}
-get_dulieu = requests.get('https://www.instagram.com/', headers = headers_get).text
-token_ig = get_dulieu.split('csrf_token":"')[1].split('",')[0]
-id_app = get_dulieu.split('"X-IG-App-ID":"')[1].split('",')[0]
-instagram_ajax = get_dulieu.split('"rev":')[1].split('},"')[0]
-#headers get info
-headers_get_in4 = {
-    'authority': 'www.instagram.com',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-    'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-    'cache-control': 'max-age=0',
-    'sec-ch-prefers-color-scheme': 'light',
-    'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-user': '?1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36',
-    'viewport-width': '1920',
-    'cookie': cookie,
-}
-in4 = requests.get('https://www.instagram.com/', headers = headers_get_in4).text
-#tách
-id_ig = in4.split('viewerId":"')[1].split('"}')[0]
-cauhinhaccig = requests.get(f'https://traodoisub.com/api/?fields=instagram_run&id={id_ig}&access_token='+token_tds).json()
-try:
-    if 'success' in cauhinhaccig:
-        id_ch = cauhinhaccig['data']['id']
-        user_ch = cauhinhaccig['data']['uniqueID']
+def load_token():
+    try:
+        with open("configtds.txt", "r") as f:
+            token = f.readline().strip()
+            if token:
+                return token
+    except:
+        return None
+    return None
+
+def save_token(token):
+    with open("configtds.txt", "w") as f:
+        f.write(token.strip())
+
+
+def safe_get_json(url):
+    try:
+        res = requests.get(url)
+        if res.status_code == 200 and res.text.strip():
+            return res.json()
+        else:
+            if not silent_mode:
+                print(f"[!] LỖI khi lấy dữ liệu từ: {url}")
+                print(f"[!] Status Code: {res.status_code}, Nội dung: {res.text[:100]}")
+            return {}
+    except requests.exceptions.JSONDecodeError:
+        if not silent_mode:
+            print(f"[!] JSONDecodeError: Dữ liệu không hợp lệ từ {url}")
+    except Exception as e:
+        if not silent_mode:
+            print(f"[!] Lỗi khi kết nối tới {url} ➤ {e}")
+    return {}
+
+while True:
+    tokenn = load_token()
+    if tokenn:
+        print(f'{Yellow}[=.=] => Nhập [1] Giữ Lại Tài Khoản TDS đã lưu')
+        print(f'{Yellow}[=.=] => Nhập [2] Nhập Access_Token TDS Mới')
+        opt = input(f'{Yellow}[=.=] => Nhập ===>: {Red}')
+        if opt == '2':
+            tokenn = input(f'{Cyan}NHẬP TOKEN TRAODOISUB MỚI:{Red} ')
+            save_token(tokenn)
     else:
-        exit(f'{do}Cấu Hình Thất Bại, Vui Lòng Thêm Acc Vào Cấu Hình!!!')
-except:
-    pass
-#info cấu hình
-print(f'{ndp_tool}{luc}USER CẤU HÌNH{trang}: {vang}{user_ch} {do}| {luc}ID CẤU HÌNH{trang}: {vang}{id_ig}')
-print(thanh)
-#chế độ tym
-if '1' in chonjob:
-    while True:
-        get_list_nv_tym = requests.get('https://traodoisub.com/api/?fields=instagram_like&access_token='+token_tds).json()
-        try:
-            id_tym = get_list_nv_tym['data'][0]['id']
-            link_job_tym = get_list_nv_tym['data'][0]['link']
-            id_job_tym = id_tym.split('_')[0]
-        except:
-            bukload = 5
-            loadjob(bukload)
-            continue
-        #headers làm job
-        headers_job_tym = {
-            'authority': 'www.instagram.com',
-            'accept': '*/*',
-            'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-            'content-type': 'application/x-www-form-urlencoded',
-            'origin': 'https://www.instagram.com',
-            'referer': link_job_tym,
-            'sec-ch-prefers-color-scheme': 'light',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36',
-            'viewport-width': '1014',
-            'x-asbd-id': '198387',
-            'x-csrftoken': token_ig,
-            'x-ig-app-id': id_app,
-            'x-ig-www-claim': 'hmac.AR0kbnnl4Sg351vNHgTi5an3lniwX9V0L8BktreD7ETXQhLL',
-            'x-instagram-ajax': instagram_ajax,
-            'x-requested-with': 'XMLHttpRequest',
-            'cookie': cookie,
-        }
+        tokenn = input(f'{Cyan}NHẬP TOKEN TRAODOISUB:{Red} ')
+        save_token(tokenn)
 
-        lamjobtym = requests.post(f'https://www.instagram.com/web/likes/{id_job_tym}/like/', headers = headers_job_tym).text
+    login = safe_get_json(f'https://traodoisub.com/api/?fields=profile&access_token={tokenn}')
+    if 'success' in login:
+        name = login['data']['user']
+        xu = login['data']['xu']
+        print(f'{Purple}➤ ĐĂNG NHẬP TDS THÀNH CÔNG')
+        break
+    else:
+        print(f'{Purple}➤ Sai TOKEN!')
         sleep(1)
-        duyetnvtym = requests.get(f'https://traodoisub.com/api/coin/?type=INS_LIKE_CACHE&id={id_tym}&access_token='+token_tds).json()
-        try:
-            xuduyet_tym = duyetnvtym['data']['pending']
-            xucong_tym = duyetnvtym['data']['msg']
-        except:
-            continue
-        if 'ok' in lamjobtym:
-            demjob = demjob+1
-            print(f'{do}[{vang}{demjob}{do}] | {xnhac}{thoigian}{do} | {vang}TYM{do} | {trang}{id_job_tym} {do}| {vang}{xucong_tym} {do}| {luc}Tổng Duyệt: {vang}{xuduyet_tym} Xu')
-            delay_ndp(delayjob)
-        else:
-            demjob = demjob+1
-            print(f'{do}[{vang}{demjob}{do}]{do}[{trang}X{do}] | {xnhac}{thoigian}{do} | {trang}{id_job_tym} {do}| {do}TYM THẤT BẠI')
-#chế độ follow
-if '2' in chonjob:
+
+print(f'\n{Cyan}1. Nhập cookie thủ công ')
+print(f'{Cyan}2. Nhập cookie đọc file .txt  ')
+a=input(f'{Cyan}Nhập lựa chọn của bạn: {Red}')
+if(a=='1'):
+    i=1
+    cookieig=input(f'\n{Cyan}Nhập cookie thứ {i}: {Red}')
+    list_acc.append(cookieig)
+    while len(cookieig)>1:
+        i=i+1
+        cookieig=input(f'\n{Cyan}Nhập cookie thứ {i}: {Red}')
+        list_acc.append(cookieig)
+        break
+if(a=='2'):
+    file = input(f'{Cyan}Nhập tên file cần đọc cookie {Yellow}(mỗi cookie 1 dòng): {Red}')
+    file =  open(f'{file}')
+    read_ck = file.readlines()
+    for ck in read_ck:
+        cookieig = ck.split('\n')[0]
+        list_acc.append(cookieig)
+clear_terminal()
+checkfl=input(f'{Cyan}Có làm nhiệm vụ {Red}follow{Cyan} không (on/off): {Red}')
+if(checkfl=='on'):
+    sofl=input(f'{Cyan}Nhập số follow/ 1 acc: {Red}')
+    sofl=int(sofl)
+    delayfl=input(f'{Cyan}Nhập delay follow: {Red}')
+checklike=input(f'{Cyan}Có làm nhiệm vụ {Red}like{Cyan} không (on/off): {Red}')
+if(checklike=='on'):
+    solike=input(f'{Cyan}Nhập số like/1 acc: {Red}')
+    solike=int(solike)
+    delaylike=input(f'{Cyan}Nhap delay like: {Red}')
+chuyenacc=input(f'{Cyan}Nhập thời gian chuyển acc: {Red}')
+chuyenacc=int(chuyenacc)
+clear_terminal()
+ghj=input(f'{Cyan}Có sử dụng {Red}proxy{Cyan} không (on/off): {Red}')
+list_proxie=[]
+if ghj=='on':
+    print(f'{Cyan}File proxy sẽ có định dạng {Red}[Tên proxy].txt')
+    print(f'{Red}HOST:PORT {Cyan}hoặc {Red}USER:PASS@HOST:PORT')
+    tenproxy= input(f'{Cyan}Nhập tên file chứa proxy {Yellow}(mỗi proxy 1 dòng sẽ tự random proxy/ 1 acc): {Red}')
+    tmp3=open(f'{tenproxy}', 'a+')
+    tmp3.close()
+    file2 =  open(f'{tenproxy}')
+    read_proxy = file2.readlines()
+    for pro in read_proxy:
+        proxii = pro.split('\n')[0]
+        list_proxie.append(proxii)
+clear_terminal()
+print(f'{Defaut}#===========================================================#')
+print(f'{Defaut}》   {Purple}Username: {Red}{name}') 
+print(f'{Defaut}》   {Purple}Accountnumber: {Red}{len(list_acc)}')
+print(f'{Defaut}》   {Purple}số xuxu: {Red}{xu}')
+print(f'{Defaut}》   {Purple}Version: {Red}0.1')
+print(f'{Defaut}#===========================================================#')
+sleep(0.5)
+#=======================================================================================
+
+
+def apifl1(cookies,idfl,uafake,proxie):
+    proxies= {
+        'http': f'http://{proxie}',
+        'https': f'http://{proxie}',
+    }
+    token=cookies.split('csrftoken=')[1].split(';')[0]
+    headers = {
+        'authority': 'i.instagram.com',
+        'accept': '*/*',
+        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
+        'content-type': 'application/x-www-form-urlencoded',
+        'cookie': cookies,
+        'origin': 'https://www.instagram.com',
+        'referer': 'https://www.instagram.com/',
+        'sec-ch-ua': '"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
+        'user-agent': uafake,
+        'x-asbd-id': '198387',
+        'x-csrftoken': token,
+        'x-ig-app-id': '936619743392459',
+        'x-ig-www-claim': 'hmac.AR1UYU8O8XCMl4jZdv4YxiRUxEIymCA_4stpgFmc092K1Kb2',
+        'x-instagram-ajax': '1006309104',
+    }
     while True:
-        get_list_nv_follow = requests.get('https://traodoisub.com/api/?fields=instagram_follow&access_token='+token_tds).json()
         try:
-            id_follow = get_list_nv_follow['data'][0]['id']
-            link_follow = get_list_nv_follow['data'][0]['link']
-            id_job_follow = id_follow.split('_')[0]
+            responsefl = requests.post(f'https://i.instagram.com/api/v1/web/friendships/{idfl}/follow/', headers=headers, proxies=proxies, timeout=10).json()
+            check = responsefl['status']
+            if(check == 'ok'):
+                print(f'{Green}SUCCESS ✔️')
+                fl1=1
+            else :
+                print(f'{Red}FAIL ❌')
+                fl1=0
+            return fl1
+            break
         except:
-            bukload = 5
-            loadjob(bukload)
-            continue
-        headers_job_follow = {
-            'authority': 'www.instagram.com',
-            'accept': '*/*',
-            'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-            'content-type': 'application/x-www-form-urlencoded',
-            'origin': 'https://www.instagram.com',
-            'referer': link_follow,
-            'sec-ch-prefers-color-scheme': 'light',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36',
-            'viewport-width': '1014',
-            'x-asbd-id': '198387',
-            'x-csrftoken': token_ig,
-            'x-ig-app-id': id_app,
-            'x-ig-www-claim': 'hmac.AR07N5q1wNjFl2rs9Uw-PN1PzCDaBP8lPGzvakw765wEQug0',
-            'x-instagram-ajax': instagram_ajax,
-            'x-requested-with': 'XMLHttpRequest',
-            'cookie': cookie,
-        }
-        lamjobfollow = requests.post(f'https://www.instagram.com/web/friendships/{id_job_follow}/follow/', headers = headers_job_follow).text
-        sleep(1)
-        duyetnvfollow = requests.get(f'https://traodoisub.com/api/coin/?type=INS_FOLLOW_CACHE&id={id_follow}&access_token='+token_tds).json()
-        try:
-            xuduyet_follow = duyetnvfollow['data']['pending']
-            xucong_follow = duyetnvfollow['data']['msg']
-        except:
-            continue
-        if 'ok' in lamjobfollow:
-            demjob = demjob+1
-            print(f'{do}[{vang}{demjob}{do}] | {xnhac}{thoigian}{do} | {vang}FOLLOW{do} | {trang}{id_job_follow} {do}| {vang}{xucong_follow} {do}| {luc}Tổng Duyệt: {vang}{xuduyet_follow} Xu')
-            delay_ndp(delayjob)
-        else:
-            demjob = demjob+1
-            print(f'{do}[{vang}{demjob}{do}]{do}[{trang}X{do}] | {xnhac}{thoigian}{do} | {trang}{id_job_follow} {do}| {do}FOLLOW THẤT BẠI')
-#chế độ tym comment
-if '3' in chonjob:
+            print(f'CÓ LỖI XÃY RA!!!   Vui lòng chờ 5s. [001]', end='\r')
+            sleep(5)
+            print('                                              ', end='\r')
+def apifl2(cookies,idfl,uafake):
+    token=cookies.split('csrftoken=')[1].split(';')[0]
+    headers = {
+        'authority': 'i.instagram.com',
+        'accept': '*/*',
+        'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
+        'content-type': 'application/x-www-form-urlencoded',
+        'cookie': cookies,
+        'origin': 'https://www.instagram.com',
+        'referer': 'https://www.instagram.com/',
+        'sec-ch-ua': '"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-site',
+        'user-agent': uafake,
+        'x-asbd-id': '198387',
+        'x-csrftoken': token,
+        'x-ig-app-id': '936619743392459',
+        'x-ig-www-claim': 'hmac.AR1UYU8O8XCMl4jZdv4YxiRUxEIymCA_4stpgFmc092K1Kb2',
+        'x-instagram-ajax': '1006309104',
+    }
     while True:
-        get_list_nv_tymcmt = requests.get('https://traodoisub.com/api/?fields=instagram_likecmt&access_token='+token_tds).json()
         try:
-            id_tymcmt = get_list_nv_tymcmt['data'][0]['id']
-            link_tymcmt = get_list_nv_tymcmt['data'][0]['link_web']
-            id_job_tymcmt = id_tymcmt.split('_')[0]
+            responsefl = requests.post(f'https://i.instagram.com/api/v1/web/friendships/{idfl}/follow/', headers=headers, timeout=10).json()
+            check = responsefl['status']
+            if(check == 'ok'):
+                print(f'{Green}SUCCESS ✔️')
+                fl1=1
+            else :
+                print(f'{Red}FAIL ❌')
+                fl1=0
+            return fl1
+            break
         except:
-            bukload = 5
-            loadjob(bukload)
-            continue
+            print(f'CÓ LỖI XÃY RA!!!   Vui lòng chờ 5s. [001]', end='\r')
+            sleep(5)
+            print('                                              ', end='\r')
+def apilike1(cookies,idlike,uafake,link,proxie):
+    proxies= {
+        'http': f'http://{proxie}',
+        'https': f'http://{proxie}',
+    }
+    if(idlike=='false'):
+        pass
+    else:
+        token=cookies.split('csrftoken=')[1].split(';')[0]
         headers = {
             'authority': 'www.instagram.com',
             'accept': '*/*',
-            'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+            'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
             'content-type': 'application/x-www-form-urlencoded',
+            'cookie': cookies,
             'origin': 'https://www.instagram.com',
-            'referer': link_tymcmt,
-            'sec-ch-prefers-color-scheme': 'light',
-            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+            'referer': link,
+            'sec-ch-ua': '"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
             'sec-fetch-dest': 'empty',
             'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.134 Safari/537.36',
-            'viewport-width': '1014',
+            'sec-fetch-site': 'same-site',
+            'user-agent': uafake,
             'x-asbd-id': '198387',
-            'x-csrftoken': token_ig,
-            'x-ig-app-id': id_app,
-            'x-ig-www-claim': 'hmac.AR0kbnnl4Sg351vNHgTi5an3lniwX9V0L8BktreD7ETXQgRk',
-            'x-instagram-ajax': instagram_ajax,
-            'x-requested-with': 'XMLHttpRequest',
-            'cookie': cookie,
+            'x-csrftoken': token,
         }
-        lamjobtymcmt = requests.post(f'https://www.instagram.com/web/comments/like/{id_job_tymcmt}', headers=headers).text
-        duyetnvtymcmt = requests.get(f'https://traodoisub.com/api/coin/?type=INS_LIKECMT_CACHE&id={id_tymcmt}&access_token='+token_tds).json()
-        try:
-            xuduyet_tymcmt = duyetnvtymcmt['data']['pending']
-            xucong_tymcmt = duyetnvtymcmt['data']['msg']
-        except:
-            continue
-        if 'ok' in lamjobtymcmt:
-            demjob = demjob+1
-            print(f'{do}[{vang}{demjob}{do}] | {xnhac}{thoigian}{do} | {vang}TYM CMT{do} | {trang}{id_job_tymcmt} {do}| {vang}{xucong_tymcmt} {do}| {luc}Tổng Duyệt: {vang}{xuduyet_tymcmt} Xu')
+        e=0
+        while True:
+            try:
+                responselike = requests.post(f'https://www.instagram.com/web/likes/{idlike}/like/',headers=headers,proxies=proxies)
+                r1=responselike.text
+                if(r1=='Sorry, this photo has been deleted'):
+                    print(f'{Red}PHOTO HAS BEEN DELETE ❌')
+                    pass
+                else:
+                    check=r1.split('status":"')[1].split('"')[0]
+                    if(check== 'ok'):
+                        print(f'{Green}SUCCESS ✔️')
+                    else :
+                        print(f'{Red}FAIL ❌')
+                break
+            except:
+                print(f'CÓ LỖI XÃY RA!!!   Vui lòng chờ 5s.  [002]', end='\r')
+                sleep(5)
+                print('                                              ', end='\r')
+                e=e+1
+                if(e==3):
+                    break
+def apilike2(cookies,idlike,uafake,link):
+    if(idlike=='false'):
+        pass
+    else:
+        token=cookies.split('csrftoken=')[1].split(';')[0]
+        headers = {
+            'authority': 'www.instagram.com',
+            'accept': '*/*',
+            'accept-language': 'vi,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/x-www-form-urlencoded',
+            'cookie': cookies,
+            'origin': 'https://www.instagram.com',
+            'referer': link,
+            'sec-ch-ua': '"Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+            'user-agent': uafake,
+            'x-asbd-id': '198387',
+            'x-csrftoken': token,
+        }
+        e=0
+        while True:
+            try:
+                responselike = requests.post(f'https://www.instagram.com/web/likes/{idlike}/like/',headers=headers)
+                r1=responselike.text
+                if(r1=='Sorry, this photo has been deleted'):
+                    print(f'{Red}PHOTO HAS BEEN DELETE ❌')
+                    pass
+                else:
+                    check=r1.split('status":"')[1].split('"')[0]
+                    if(check== 'ok'):
+                        print(f'{Green}SUCCESS ✔️')
+                    else :
+                        print(f'{Red}FAIL ❌')
+                break
+            except:
+                print(f'CÓ LỖI XÃY RA!!!   Vui lòng chờ 5s.  [002]', end='\r')
+                sleep(5)
+                print('                                              ', end='\r')
+                e=e+1
+                if(e==3):
+                    break
+print('\n')
+def job():
+    x=0
+    accthu=0
+    followthu=0
+    global checkfl
+    global checklike
+    global checkdie
+    while True:
+        if a == '1':
+            aaa = len(list_acc) - 1
+        elif a == '2':
+            aaa = len(list_acc)
         else:
-            demjob = demjob+1
-            print(f'{do}[{vang}{demjob}{do}]{do}[{trang}X{do}] | {xnhac}{thoigian}{do} | {trang}{id_job_tymcmt} {do}| {do}TYM CMT')
+            aaa = len(list_acc)  # fallback an toàn
+
+        for i in range(aaa):
+            print(f'{Defaut}#===========================================================#')
+            x1=0
+            x2=0
+            try:
+                ran_proxi=random.randint(0, len(list_proxie)-1)
+                proxie=list_proxie[ran_proxi]
+            except:
+                pass
+            Cookie=list_acc[i]
+            uaa = random.randint(0, 299)
+            try:
+                uafake=read_ua[uaa].split('\n')[0]
+            except:
+                uafake='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'
+            ds_user_id=Cookie.split('ds_user_id=')[1].split(';')[0]
+            headersig = {
+                'authority': 'www.instagram.com',
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                'accept-language': 'vi,en;q=0.9,vi-VN;q=0.8,fr-FR;q=0.7,fr;q=0.6,en-US;q=0.5',
+                'cache-control': 'max-age=0',
+                'cookie': Cookie,
+                'sec-ch-prefers-color-scheme': 'dark',
+                'sec-ch-ua': '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'sec-fetch-dest': 'document',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-site': 'same-origin',
+                'sec-fetch-user': '?1',
+                'upgrade-insecure-requests': '1',
+                'user-agent': uafake,
+                'viewport-width': '1366',
+            }
+            while True:
+                try:
+                    accthu=accthu+1
+                    response = requests.get('https://www.instagram.com/',headers=headersig).text
+                    checkdie=response.split('class="')[1].split(' ')[0]
+                    if(checkdie=='no-js'):
+                        print(f'{Purple}➤ ACCOUNT NUMER {accthu} {Red}DIE')
+                        break
+                    else:
+                        userig = response.split(f'username')[1]
+                        user = userig.split('"')[2].split("\\")[0]
+                        break
+                except:
+                    print(f'CÓ LỖI XÃY RA!!!   Vui lòng chờ 5s. ', end='\r')
+                    sleep(5)
+                    print('                                              ', end='\r')
+            if(checkdie=='no-js'):
+                continue
+            else:
+                check=0
+                while True:
+                    try:
+                        cauhinh = safe_get_json(f'https://traodoisub.com/api/?fields=instagram_run&id={ds_user_id}&access_token={tokenn}')
+                        if 'success' in cauhinh:
+                            print(f'{Purple}➤ ACCOUNT NUMER {accthu} {Red}<> {Purple}Cấu Hình ID: {Red}{user} {Purple}Thành Công' )
+                            break
+                        else:
+                            check=check+1
+                            print(f'{Purple}➤ ACCOUNT NUMER {accthu} {Red}<> {Purple}Cấu Hình ID: {Red}{user} {Purple}Thất Bại!' )
+                            sleep(10)
+                            if(check==3):
+                                break
+                    except:
+                        print(f'CÓ LỖI XÃY RA!!!0   Vui lòng chờ 5s. ', end='\r')
+                        sleep(5)
+                        print('                                              ', end='\r')
+            if(check==3):
+                pass
+            else:
+                if(checkfl=='on'):
+                    kkk=0
+                    demfl=0
+                    while True:
+                        checkk=0
+                        while True:
+                            try:
+                                job = safe_get_json(f'https://traodoisub.com/api/?fields=instagram_follow&access_token={tokenn}')
+                                job=job['data']
+                                checkid=job[0]['id']
+                                break
+                            except:
+                                checkk=checkk+1
+                                if(checkk==3):
+                                    break
+                                sleep(1)
+                        if(checkk==3):
+                            break
+                        if(len(job)>=1):
+                            print(f'{Yellow}Tìm Thấy {len(job)} Nhiệm Vụ FOLLOW       ')
+                            for job in job:
+                                x=x+1
+                                demfl=demfl+1
+                                kkk=kkk+1
+                                id=job['id']
+                                idfl=id.split('_')[0]
+                                hnay=datetime.now()
+                                gio=hnay.hour
+                                phut=hnay.minute
+                                giay=hnay.second
+                                print(f'   {Red}[{Yellow}{x}{Red}] [{Yellow}{gio}:{phut}:{giay}{Red}] [{Yellow}FOLLOW{Red}] [{Yellow}{idfl}{Red}] ', end='')
+                                if ghj == 'on':
+                                    jjj = apifl1(Cookie, idfl, uafake, proxie)
+                                else:
+                                    jjj = apifl2(Cookie, idfl, uafake)
+
+                                if jjj == 0:
+                                    break
+
+                                # ➤ Gửi yêu cầu duyệt nhiệm vụ với retry nếu server đang cache
+                                max_retry = 3
+                                for attempt in range(max_retry):
+                                    duyet = safe_get_json(f'https://traodoisub.com/api/coin/?type=INS_FOLLOW_CACHE&id={id}&access_token={tokenn}')
+                                    
+                                    if duyet.get('data') and isinstance(duyet['data'], dict):
+                                        # Duyệt thành công → thoát vòng lặp
+                                        break
+                                    elif duyet.get("cache"):
+                                        if not silent_mode:
+                                            print(f"{Yellow}➤ [Lưu ý] Server đang cache kết quả... thử lại sau vài giây (Lần {attempt+1}/{max_retry})")
+                                        sleep(3)
+                                        
+                                    else:
+                                        # Trường hợp lỗi không xác định → dừng luôn
+                                        break
+
+                                # ➤ Xử lý kết quả duyệt
+                                if duyet.get('data') and isinstance(duyet['data'], dict):
+                                    nhan = duyet['data'].get('msg', 'Không xác định')
+                                    tong = duyet['data'].get('pending', 0)
+                                    print(f"{Green}➤ NHẬN: {nhan} <> ĐỢI DUYỆT: {tong}")
+                                else:
+                                    if not silent_mode:
+                                        print(f"{Red}➤ LỖI: Không thể nhận dữ liệu từ server khi duyệt nhiệm vụ!")
+                                        print(f"{Red}➤ Phản hồi: {duyet}")
+                                    nhan = 'Không xác định'
+                                    tong = 0
+
+
+                                for i in range(int(delayfl),-1,-1):
+                                    print(f'{Red}[THUYTRANG MEME]{Red}[{White}{str(i)}{Red}]  {Green}DELAY {Red}[{White}|{Red}] ', end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[THUYTRANG MEME]{Red}[{White}{str(i)}{Red}]  {Green}DELAY {Red}[{White}|{Red}] ', end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[THUYTRANG MEME]{Red}[{White}{str(i)}{Red}]  {Green}DELAY {Red}[{White}|{Red}] ', end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[THUYTRANG MEME]{Red}[{White}{str(i)}{Red}]  {Green}DELAY {Red}[{White}|{Red}] ', end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[THUYTRANG MEME]{Red}[{White}{str(i)}{Red}]  {Green}DELAY {Red}[{White}|{Red}] ', end='\r')
+                                    sleep(0.2)
+                                if(kkk==sofl):
+                                    break
+                            if(jjj==0 or kkk==sofl):
+                                try:
+                                    sodu=demfl*800
+                                    print(f'{Purple}➤ ĐÃ XONG JOB FOLLOW {Red}<> {Purple}NHẬN ĐƯỢC {Red}{sodu} COIN {Red}<> {Purple}ĐỢI DUYỆT {Red}{tong}')
+                                except:
+                                    pass
+                                break
+                        else:
+                            print(f'{Green}Không có nhiệm vụ follow !!',end='\r')
+                            sleep(1)
+                            print('                                              ', end='\r')
+                            if(demfl >=1 ):
+                                try:
+                                    sodu=demfl*800
+                                    print(f'{Purple}➤ ĐÃ XONG JOB FOLLOW {Red}<> {Purple}NHẬN ĐƯỢC {Red}{sodu} COIN {Red}<> {Purple}ĐỢI DUYỆT {Red}{tong}')
+                                except:
+                                    pass
+                            x1=1
+                            if(checklike!='on'):
+                                x1=0
+                                sleep(2)
+                            break
+                if(checklike=='on'):
+                    demlike=0
+                    ooo=0
+                    while True:
+                        checkk=0
+                        while True:
+                            try:
+                                joblike = safe_get_json(f'https://traodoisub.com/api/?fields=instagram_like&access_token={tokenn}')
+                                joblike=joblike['data']
+                                idlike=joblike[0]['id']
+                                break
+                            except:
+                                checkk=checkk+1
+                                if(checkk==3):
+                                    break
+                                sleep(1)
+                        if(checkk==3):
+                            break
+                        if(len(joblike)>=1):
+                            print(f'{Yellow}Tìm Thấy {len(joblike)} Nhiệm Vụ LIKE         ')
+                            for joblike in joblike:
+                                x=x+1
+                                ooo=ooo+1
+                                demlike=demlike+1
+                                idlike=joblike['id']
+                                link=joblike['link']
+                                idjob=idlike.split('_')[0]
+                                hnay=datetime.now()
+                                gio=hnay.hour
+                                phut=hnay.minute
+                                giay=hnay.second
+                                print(f'   {Red}[{Yellow}{x}{Red}] [{Yellow}{gio}:{phut}:{giay}{Red}] [{Yellow}LIKE{Red}] [{Yellow}{idjob}{Red}] ', end='')
+                                if ghj=='on':
+                                    lll=apilike1(Cookie,idjob,uafake,link,proxie)
+                                else :
+                                    lll=apilike2(Cookie,idjob,uafake,link)
+                                if(lll==0):
+                                    break
+                                if duyet.get('data') and isinstance(duyet['data'], dict):
+                                    nhan = duyet['data'].get('msg', 'Không xác định')
+                                    tong = duyet['data'].get('pending', 0)
+
+                                    # Gửi yêu cầu nhận xu chính thức
+                                    nhanxu = safe_get_json(f'https://traodoisub.com/api/coin/?type=INS_LIKE&id={idlike}&access_token={tokenn}')
+                                    if not silent_mode:
+                                        print(f"{Green}➤ Đã gửi nhận xu: {nhanxu}")
+
+                                while 'error' in duyet and not silent_mode:
+                                    duyet = safe_get_json(f'https://traodoisub.com/api/coin/?type=INS_LIKE_CACHE&id={idlike}&access_token={tokenn}')
+                                    if('success' in duyet):
+                                        break
+                                
+                                for i in range(int(delaylike),-1,-1):
+                                    print(f'{Red}[{Green}H{Yellow}D{Blue}T-{Purple}T{Green}O{Yellow}O{Blue}L{Red}]{Red}[{White}{str(i)}{Red}]  {Green}SLEEP {Red}[{White}|{Red}] ',end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[{Green}H{Yellow}D{Blue}T-{Purple}T{Green}O{Yellow}O{Blue}L{Red}]{Red}[{White}{str(i)}{Red}]  {Green}SLEEP {Red}[{White}|{Red}] ',end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[{Green}H{Yellow}D{Blue}T-{Purple}T{Green}O{Yellow}O{Blue}L{Red}]{Red}[{White}{str(i)}{Red}]  {Green}SLEEP {Red}[{White}|{Red}] ',end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[{Green}H{Yellow}D{Blue}T-{Purple}T{Green}O{Yellow}O{Blue}L{Red}]{Red}[{White}{str(i)}{Red}]  {Green}SLEEP {Red}[{White}|{Red}] ',end='\r')
+                                    sleep(0.2)
+                                    print(f'{Red}[{Green}H{Yellow}D{Blue}T-{Purple}T{Green}O{Yellow}O{Blue}L{Red}]{Red}[{White}{str(i)}{Red}]  {Green}SLEEP {Red}[{White}|{Red}] ',end='\r')
+                                    sleep(0.2)
+                                if(ooo==solike):
+                                    break
+                            if(lll==0 or ooo==solike):
+                                try:
+                                    sodu=demlike*500
+                                    print(f'{Purple}➤ ĐÃ XONG JOB LIKE {Red}<> {Purple}NHẬN ĐƯỢC {Red}{sodu} COIN {Red}<> {Purple}ĐỢI DUYỆT {Red}{tong}')
+                                except:
+                                    pass
+                                break
+                            x2=1
+                        else:
+                            print(f'{Green}Không có nhiệm vụ like!  ',end = '\r')
+                            sleep(1)
+                            print('                                                       ', end='\r') 
+                            if(demlike>=1):
+                                try:
+                                    sodu=demlike*500
+                                    print(f'{Purple}➤ ĐÃ XONG JOB LIKE {Red}<> {Purple}NHẬN ĐƯỢC {Red}{sodu} COIN {Red}<> {Purple}ĐỢI DUYỆT {Red}{tong}')
+                                except:
+                                    pass
+                            x2=0
+                            continue
+            if(x1==1 or x2==1): 
+                print('Chuyen acc sau',chuyenacc, 'giay:')
+                for i in range(chuyenacc, -1, -1):
+                    print(f'Please wait after {i} •   ', end='\r')
+                    sleep(0.25)
+                    print(f'Please wait after {i} ••    ', end='\r')
+                    sleep(0.25)
+                    print(f'Please wait after {i} •••   ', end='\r')
+                    sleep(0.25)
+                    print(f'Please wait after {i} ••••    ', end='\r')
+                    sleep(0.25)
+                    print('                                                  ', end='\r')
+job()
